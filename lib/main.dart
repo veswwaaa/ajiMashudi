@@ -6,8 +6,13 @@ import 'package:ajimashudi/screens/admin_screen.dart';
 import 'package:ajimashudi/screens/driver_screen.dart';
 import 'package:ajimashudi/screens/user_screen.dart';
 import 'package:ajimashudi/router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() async {
+Future<void> main() async {
+  await Supabase.initialize(
+    url: 'https://uuyuwqngeviyzgdrfjqc.supabase.co',
+    anonKey: 'sb_publishable_yYtSrHUr2-tfKYS4SpeGVQ_XMSwrhTQ',
+  );
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
