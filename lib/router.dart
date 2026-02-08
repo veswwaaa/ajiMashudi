@@ -1,13 +1,13 @@
 import 'package:go_router/go_router.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/login_page_screen.dart';
-import 'package:flutter_application_1/screens/admin_screen.dart';
-import 'package:flutter_application_1/screens/driver_screen.dart';
-import 'package:flutter_application_1/screens/user_screen.dart';
-import 'package:flutter_application_1/screens/location_screen.dart';
-import 'package:flutter_application_1/screens/google_map_screen.dart';
-import 'package:flutter_application_1/screens/real_time_db_screen.dart';
+import 'package:ajimashudi/screens/login_page_screen.dart';
+import 'package:ajimashudi/screens/admin_screen.dart';
+import 'package:ajimashudi/screens/driver_screen.dart';
+import 'package:ajimashudi/screens/user_screen.dart';
+// import 'package:ajimashudi/screens/location_screen.dart';
+// import 'package:ajimashudi/screens/google_map_screen.dart';
+// import 'package:ajimashudi/screens/real_time_db_screen.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 // GoRouter configuration
@@ -18,7 +18,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const locationScreen(),
+      builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
       path: '/admin',

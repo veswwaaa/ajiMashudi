@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "1079831312834",
+    "project_id": "portokita-ccb41",
+    "storage_bucket": "portokita-ccb41.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079831312834:android:a4acbe3e8a4bbafb80fe5b",
+        "android_client_info": {
+          "package_name": "com.example.ajimashudi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079831312834-qlag5mmojbk6utge84867t1a67u8fn4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAanEP4EuTWMza6RvpOOaJDY97czWmej9E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079831312834-qlag5mmojbk6utge84867t1a67u8fn4o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1079831312834-u9nokcihrjtuibu4uo68l8bmbfsh2sjr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.portokita"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079831312834:android:1279d3c9d43581d180fe5b",
+        "android_client_info": {
+          "package_name": "com.example.portokita"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079831312834-qlag5mmojbk6utge84867t1a67u8fn4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAanEP4EuTWMza6RvpOOaJDY97czWmej9E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079831312834-qlag5mmojbk6utge84867t1a67u8fn4o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1079831312834-u9nokcihrjtuibu4uo68l8bmbfsh2sjr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.portokita"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
