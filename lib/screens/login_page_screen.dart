@@ -379,9 +379,118 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
+<<<<<<< HEAD
                     isLogin ? _buildLoginForm() : _buildRegisterForm(),
                   ],
                 ),
+=======
+                  ),
+                  SizedBox(height: 20),
+                  TextField(
+                    controller: _passwordController,
+                    obscureText: _obscurePassword,
+                    decoration: InputDecoration(
+                      floatingLabelStyle: TextStyle(color: Colors.blue),
+                      labelText: 'Password',
+                      prefixIcon: Icon(Icons.lock_outline,),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 1.7
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Lupa password?',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(400, 50),
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+
+                      elevation: 5,
+                    ),
+                    onPressed: () async {
+                      final login = await loginUser(
+                        _usernameController.text,
+                        _passwordController.text,
+                      );
+                      if (login['success'] == true) {
+                        (['user', 'admin', 'driver'].contains(login['role']))
+                            ? context.go('/${login['role']}')
+                            : print('Unknown role');
+                        // context.go('/admin');
+                      } else {
+                        print(login['error']);
+                      }
+                    },
+                    child: Text('Login'),
+                  ),
+                  SizedBox(height: 12),
+
+                  Text('Atau'),
+
+                  SizedBox(height: 12),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(400, 50),
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+
+                      elevation: 5,
+                    ),
+                    onPressed: () {
+                      // Handle Google sign-in
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.network(
+                          'https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png',
+                          height: 24,
+                        ),
+                        SizedBox(width: 10),
+                        Text('Masuk dengan Google'),
+                      ],
+                    ),
+                  ),
+                ],
+>>>>>>> d40861ba4ea51b856ad2a8815917244ec34e7963
               ),
             ),
           ),

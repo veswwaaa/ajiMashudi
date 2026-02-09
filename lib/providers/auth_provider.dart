@@ -1,34 +1,28 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-final _db = FirebaseFirestore.instance;
-
-Future loginUser(email, password) async {
-  String message = '';
+Future loginUser(username, password) async {
+  final supabase = Supabase.instance.client;
+  // Simulate a network call
   try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
+    await supabase.auth.signInWithPassword(
+      email: username,
       password: password,
     );
-    DocumentSnapshot data = await _db
-        .collection("userData")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
+    final data = await supabase.auth.getUserIdentities();
+    final dbData = await supabase
+  .from('users')
+  .select()
+  .eq('uid', data.first.id); // equals filter
     return {
       'success' : true,
-      'name' : data['name'],
-      'role' : data['type'],
-      'uid' : FirebaseAuth.instance.currentUser!.uid
+      'name' : dbData.first['display_name'],
+      'role' : dbData.first['role'],
+      'uid' : data.first.id
     };
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
-      message = 'Invalid login credentials.';
-    } else {
-      message = e.code;
-    }
+  } catch (e) {
     return {
       'success' : false,
-      'error': message
+      'error': e.toString()
     };
   }
 }
