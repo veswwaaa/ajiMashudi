@@ -1,10 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ajimashudi/providers/auth_provider.dart';
-import 'package:dotted_border/dotted_border.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
