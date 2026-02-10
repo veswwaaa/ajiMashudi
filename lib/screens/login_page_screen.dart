@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
             elevation: 5,
           ),
           onPressed: () {
-            // HANDLE LOGIN GOOGLENYA DI SINI YA KEFIN 
+            // HANDLE LOGIN GOOGLENYA DI SINI YA KEFIN
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -200,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
 
         SizedBox(height: 20),
         Container(
-          padding: EdgeInsets.only(top: 4, left: 12, right: 12,bottom: 4),
+          padding: EdgeInsets.only(top: 4, left: 12, right: 12, bottom: 4),
           height: 50,
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 197, 222, 244),
@@ -210,8 +210,7 @@ class _LoginPageState extends State<LoginPage> {
           alignment: Alignment.centerLeft,
           child: Text(
             'Setelah mendaftar, Anda akan menerima email verifikasi untuk mengaktifkan akun.',
-            style: TextStyle(color: Colors.blue[900],fontSize: 12), 
-          
+            style: TextStyle(color: Colors.blue[900], fontSize: 12),
           ),
         ),
         SizedBox(height: 25),
@@ -253,139 +252,143 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      body: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 200,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(50),
-                bottomRight: Radius.circular(50),
-              ),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "LogiBox",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Solusi pengiriman barang terpercaya',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          //==================INIIII CARDD NYOOO==================== 
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              margin: EdgeInsets.only(top: 150),
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              width: double.infinity,
-              child: Container(
-                padding: EdgeInsets.all(20),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 200,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50),
+                  ),
                 ),
-                
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "LogiBox",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      //ini tab nyo ya kapin
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isLogin = true;
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 6),
-                                decoration: BoxDecoration(
-                                  color: isLogin
-                                      ? Colors.white
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  'masuk',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: isLogin
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isLogin = false;
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 6),
-                                decoration: BoxDecoration(
-                                  color: isLogin
-                                      ? Colors.transparent
-                                      : Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  'daftar',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: isLogin
-                                        ? FontWeight.normal
-                                        : FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        'Solusi pengiriman barang terpercaya',
+                        style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
-                    ),
-                    isLogin ? _buildLoginForm() : _buildRegisterForm(),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
+
+              //==================INIIII CARDD NYOOO====================
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  margin: EdgeInsets.only(top: 150),
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  width: double.infinity,
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          //ini tab nyo ya kapin
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isLogin = true;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: isLogin
+                                          ? Colors.white
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      'masuk',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: isLogin
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isLogin = false;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: isLogin
+                                          ? Colors.transparent
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      'daftar',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: isLogin
+                                            ? FontWeight.normal
+                                            : FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        isLogin ? _buildLoginForm() : _buildRegisterForm(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
