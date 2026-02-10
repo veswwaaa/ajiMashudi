@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
@@ -157,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
 
         SizedBox(height: 20),
         TextField(
-          controller: _usernameController,
+          controller: _emailController,
           decoration: InputDecoration(
             labelText: 'Email',
             prefixIcon: Icon(Icons.email),
@@ -228,16 +229,18 @@ class _LoginPageState extends State<LoginPage> {
             elevation: 5,
           ),
           onPressed: () async {
-            final login = await loginUser(
-              _usernameController.text,
-              _passwordController.text,
+            final register = await signInUser(
+              username: _usernameController.text,
+              email: _emailController.text,
+              password: _passwordController.text,
             );
-            if (login['success'] == true) {
-              (['user', 'admin', 'driver'].contains(login['role']))
-                  ? context.go('/${login['role']}')
-                  : print('Unknown role');
+            if (register['success'] == true) {
+              // (['user', 'admin', 'driver'].contains(register['role']))
+              //     ? context.go('/${register['role']}')
+              //     : print('Unknown role');
+              print(register['success']);
             } else {
-              print(login['error']);
+              print(register['error']);
             }
           },
           child: Text('Daftar'),
