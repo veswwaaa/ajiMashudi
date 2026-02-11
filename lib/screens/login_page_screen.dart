@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                   ? context.go('/${login['role']}')
                   : print('Unknown role');
             } else {
-              print(login['error']);
+              print("Login gagal: ${login['error']}");
             }
           },
           child: Text('Login'),
@@ -118,8 +118,17 @@ class _LoginPageState extends State<LoginPage> {
 
             elevation: 5,
           ),
-          onPressed: () {
+          onPressed: () async{
             // HANDLE LOGIN GOOGLENYA DI SINI YA KEFIN
+            // KEPIN: NGGEH NO
+            final login = await LoginOauthUser();
+            if (login['success'] == true) {
+              (['user', 'admin', 'driver'].contains(login['role']))
+                  ? context.go('/${login['role']}')
+                  : print('Unknown role');
+            } else {
+              print("Login Google gagal: ${login['error']}");
+            }
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
