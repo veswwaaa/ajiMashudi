@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         SizedBox(height: 28),
         TextField(
-          controller: _usernameController,
+          controller: _emailController, /* <----------- kepin: ini ku ganti no, kam ngasih username njir bukn email kocak ni */
           decoration: InputDecoration(
             labelText: 'Email',
             prefixIcon: Icon(Icons.email),
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           onPressed: () async {
             final login = await loginUser(
-              _usernameController.text,
+              _emailController.text,
               _passwordController.text,
             );
             if (login['success'] == true) {
@@ -234,6 +234,10 @@ class _LoginPageState extends State<LoginPage> {
               password: _passwordController.text,
             );
             if (register['success'] == true) {
+              //kepin: ku tambahin ni biar waktu sudh daftar langusng balik ke login
+              setState(() {
+                isLogin = true;
+              });
               // (['user', 'admin', 'driver'].contains(register['role']))
               //     ? context.go('/${register['role']}')
               //     : print('Unknown role');
@@ -320,6 +324,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           //ini tab nyo ya kapin
+                          //kepin: nggeh no
                           child: Row(
                             children: [
                               Expanded(
