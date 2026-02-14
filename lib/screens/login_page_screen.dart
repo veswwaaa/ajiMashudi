@@ -146,6 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                       login['error'] ?? 'Login gagal. Email atau password salah',
                       isError: true,
                     );
+                    print("Login gagal: ${login['error']}");
                   }
                 }catch (e) {
                   _showSnackBar('terjadi kesalahan: $e', isError: true);

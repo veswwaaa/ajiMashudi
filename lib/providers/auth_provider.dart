@@ -23,8 +23,20 @@ Future loginUser(email, password) async {
       'role': dbData.first['role'],
       'uid': data.first.id,
     };
+  } on AuthException catch (error) {
+    // Ambil statusCode di sini
+    String? status = error.statusCode;
+    String? code = error.code; // 'invalid_credentials'
+    String message = error.message; // 'Invalid login credentials'
+
+    print('Status Code: $status');
+    print('Error Code: $code');
+    return {
+      'success': false,
+      'error': message,
+    };
   } catch (e) {
-    return {'success': false, 'error': e.toString()};
+    print('Error tidak terduga: $e');
   }
 }
 
@@ -49,26 +61,25 @@ Future LoginOauthUser() async {
       idToken: idToken!,
     );
 
-      var userData = await supabase
-          .from('users')
-          .select()
-          .eq('uid', response.user!.id)
-          .maybeSingle();
+    var userData = await supabase
+        .from('users')
+        .select()
+        .eq('uid', response.user!.id)
+        .maybeSingle();
 
-      // kepin: ey no ku pake b.inggris aj ya ngomment nya biar enak
-      // if user data does not exist, create a new record
-      if (userData == null) {
-        await supabase.from('users').insert({
-          'uid': response.user!.id,
-          'display_name':
-              response.user!.userMetadata!['full_name'] ?? 'No Name',
-        });
-        userData = await supabase
+    // kepin: ey no ku pake b.inggris aj ya ngomment nya biar enak
+    // if user data does not exist, create a new record
+    if (userData == null) {
+      await supabase.from('users').insert({
+        'uid': response.user!.id,
+        'display_name': response.user!.userMetadata!['full_name'] ?? 'No Name',
+      });
+      userData = await supabase
           .from('users')
           .select()
           .eq('uid', response.user!.id)
           .maybeSingle();
-      }
+    }
 
     return {
       'success': true,
