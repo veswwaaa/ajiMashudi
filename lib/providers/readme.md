@@ -8,11 +8,13 @@ Silakan pilih modul yang ingin dilihat:
 - [👥 Manajemen User](docs/users.md)
 - [💸 Transaksi](#bagian-transaksi)
 
-### Login Func
+
+
+<a name="bagian-transaksi">
+    ### Login Func
 
 Untuk Login
 
-<a name="bagian-transaksi"></a>
 **Endpoint:**
 
 ```
@@ -36,16 +38,17 @@ loginUser(email, password);
 
 ```json
 {
-      'success': true,
-      'name': kevin apta,
-      'role': user,
-      'uid': XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX,
+      "success": true,
+      "name": "kevin apta",
+      "role": "user",
+      "uid": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
 }
 ```
 - **Error**
 ```json
 {
-    'success': false,
-    'error': "Invalid Login Credientals"
+    "success": false,
+    "error": "Invalid Login Credientals"
 }
 ```
+</a>
