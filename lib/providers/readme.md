@@ -34,17 +34,18 @@ loginUser(email, password);
 
 - **Success**
 
-````json
+```json
 {
       'success': true,
       'name': kevin apta,
       'role': user,
       'uid': XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX,
 }
+```
 - **Error**
 ```json
 {
-    'success': false, 
-    'error': "Invalid Login Credientals" 
+    'success': false,
+    'error': "Invalid Login Credientals"
 }
-````
+```
