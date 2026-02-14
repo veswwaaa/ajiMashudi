@@ -6,11 +6,17 @@ Silakan pilih modul yang ingin dilihat:
 - [👥 Manajemen User](docs/users.md)
 - [💸 Transaksi](#bagian-transaksi)
 
-### 👤 User Profile
-Mengambil data detail profil pengguna yang sedang login.
+### Login Func
+Untuk Login
 
 <a name="bagian-transaksi"></a>
-**Endpoint:** `GET /api/v1/users/profile`  
+**Endpoint:** 
+```
+// Code goes here
+function example() {
+  console.log("Hello, world!");
+}
+```
 **Auth:** Required (Bearer Token)
 
 #### Parameters
