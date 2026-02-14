@@ -1,208 +1,145 @@
-ini dokumentasi func" bekend
+# 📖 Provider Documentation
 
-## 📖 Dokumentasi API
+Dokumentasi ini mencakup fungsi-fungsi utama pada aplikasi **Ajimashudi** untuk autentikasi dan manajemen lokasi.
 
-Silakan pilih modul yang ingin dilihat:
+### 🗂️ Daftar Isi
 
-- [🔐 Autentikasi](#bagian-login)
-- [🔐 Login OAuth](#bagian-login-oauth)
-- [📝 Registrasi User](#bagian-register)
-- [📍 Listener Lokasi](#bagian-location-listener)
-- [🗺️ Tulis Lokasi](#bagian-write-location)
+* [🔐 Autentikasi (Email & Password)](https://www.google.com/search?q=%23-autentikasi-email--password)
+* [🌐 Login OAuth (Google)](https://www.google.com/search?q=%23-login-oauth-google)
+* [📝 Registrasi Pengguna](https://www.google.com/search?q=%23-registrasi-pengguna)
+* [🛰️ Listener Lokasi (Real-time)](https://www.google.com/search?q=%23-listener-lokasi-real-time)
+* [📍 Write Location (Firebase)](https://www.google.com/search?q=%23-write-location-firebase)
 
+---
 
+### 🔐 Autentikasi (Email & Password)
 
-<a name="bagian-login">
-    ### Login Func
+Digunakan untuk masuk ke aplikasi menggunakan kredensial terdaftar.
 
-Untuk Login
+**Provider Path:**
+`import 'package:ajimashudi/providers/auth_provider.dart';`
 
-**Endpoint:**
+**Fungsi:**
+
+```dart
+loginUser(String email, String password);
 
 ```
-import 'package:ajimashudi/providers/auth_provider.dart';
 
-loginUser(email, password);
+**Parameters:**
+| Name | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `email` | `String` | ✅ Yes | Email pengguna |
+| `password` | `String` | ✅ Yes | Minimal 6 karakter |
+
+**Response:**
+
+* **Success**
+```json
+{ "success": true, "name": "Kevin Apta", "role": "user", "uid": "UID-123" }
+
 ```
 
-**Auth:** Required (Bearer Token)
 
-#### Parameters
+* **Error**
+```json
+{ "success": false, "error": "Invalid Login Credentials" }
 
-| Name       | Type               | In    | Required | Description   |
-| :--------- | :----------------- | :---- | :------- | :------------ |
-| `email`    | string             | query | No       | email User    |
-| `password` | string(min 6 char) | query | No       | password User |
+```
 
-#### Response
 
-- **Success**
+
+---
+
+### 🌐 Login OAuth (Google)
+
+Login instan menggunakan akun Google. Jika user belum ada di tabel `users`, data akan otomatis dibuat.
+
+**Provider Path:**
+`import 'package:ajimashudi/providers/auth_provider.dart';`
+
+**Fungsi:**
+
+```dart
+loginOauthUser();
+
+```
+
+**Response Success:**
 
 ```json
 {
-      "success": true,
-      "name": "kevin apta",
-      "role": "user",
-      "uid": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+  "success": true,
+  "name": "Nama Pengguna",
+  "role": "user",
+  "uid": "UID-123"
 }
-```
-- **Error**
-```json
-{
-    "success": false,
-    "error": "Invalid Login Credientals"
-}
-```
-</a>
-
-<a name="bagian-login-oauth">
-        ### Login OAuth Func
-
-Login menggunakan akun Google dan membuat data user di tabel `users` jika belum ada.
-
-**Endpoint:**
 
 ```
-import 'package:ajimashudi/providers/auth_provider.dart';
 
-LoginOauthUser();
-```
+---
 
-**Auth:** Required (Google OAuth)
+### 📝 Registrasi Pengguna
 
-#### Parameters
+Mendaftarkan user baru ke Supabase Auth dan menyimpan data profil ke tabel `users`.
 
-Tidak ada parameter.
+**Provider Path:**
+`import 'package:ajimashudi/providers/auth_provider.dart';`
 
-#### Response
+**Fungsi:**
 
-- **Success**
-
-```json
-{
-    "success": true,
-    "name": "nama pengguna",
-    "role": "user",
-    "uid": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-}
-```
-
-- **Error**
-
-```json
-{
-    "success": false,
-    "error": "Exception message"
-}
-```
-</a>
-
-<a name="bagian-register">
-        ### Register Func
-
-Registrasi user baru melalui Supabase, lalu menyimpan data dasar ke tabel `users`.
-
-**Endpoint:**
+```dart
+signInUser({required String username, required String email, required String password});
 
 ```
-import 'package:ajimashudi/providers/auth_provider.dart';
 
-signInUser(username: username, email: email, password: password);
-```
+**Parameters:**
+| Name | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `username` | `String` | ✅ Yes | Nama tampilan user |
+| `email` | `String` | ✅ Yes | Email aktif |
+| `password` | `String` | ✅ Yes | Minimal 6 karakter |
 
-**Auth:** Not Required
+---
 
-#### Parameters
+### 🛰️ Listener Lokasi (Real-time)
 
-| Name       | Type               | In    | Required | Description        |
-| :--------- | :----------------- | :---- | :------- | :----------------- |
-| `username` | string             | query | No       | nama user          |
-| `email`    | string             | query | No       | email user         |
-| `password` | string(min 6 char) | query | No       | password user      |
+Membuka aliran data (*stream*) koordinat perangkat secara real-time.
 
-#### Response
+**Provider Path:**
+`import 'package:ajimashudi/providers/location_listener.dart';`
 
-- **Success**
+**Fungsi:**
 
-```json
-{
-    "success": true
-}
-```
-
-- **Error**
-
-```json
-{
-    "success": false,
-    "error": "Exception message"
-}
-```
-</a>
-
-<a name="bagian-location-listener">
-        ### Location Listener Func
-
-Membuka stream lokasi real-time dari device. Hasilnya dapat dipakai untuk update UI atau menyimpan lokasi secara berkala.
-
-**Endpoint:**
-
-```
-import 'package:ajimashudi/providers/location_listener.dart';
-
+```dart
 final stream = await getLocationStream();
-```
-
-**Auth:** Not Required
-
-#### Parameters
-
-Tidak ada parameter.
-
-#### Response
-
-Mengembalikan `Stream<LocationData>` dari plugin location.
-</a>
-
-<a name="bagian-write-location">
-        ### Write Location Func
-
-Menyimpan koordinat lokasi ke Firebase Realtime Database pada path user tertentu.
-
-**Endpoint:**
 
 ```
-import 'package:ajimashudi/providers/write_location.dart';
 
-writeLocation(userId, latitude: lat, longitude: lng);
+**Return Type:**
+`Stream<LocationData>` (dari package `location`)
+
+---
+
+### 📍 Write Location (Firebase)
+
+Mengirimkan data koordinat ke **Firebase Realtime Database** untuk pelacakan.
+
+**Provider Path:**
+`import 'package:ajimashudi/providers/write_location.dart';`
+
+**Fungsi:**
+
+```dart
+writeLocation(String userId, {double latitude, double longitude});
+
 ```
 
-**Auth:** Not Required
+**Parameters:**
+| Name | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `userId` | `String` | ✅ Yes | UID user sebagai path database |
+| `latitude` | `double` | ✅ Yes | Titik koordinat Lintang |
+| `longitude` | `double` | ✅ Yes | Titik koordinat Bujur |
 
-#### Parameters
-
-| Name        | Type    | In    | Required | Description       |
-| :---------- | :------ | :---- | :------- | :---------------- |
-| `user`      | string  | query | No       | id/path user      |
-| `latitude`  | double  | query | No       | latitude user     |
-| `longitude` | double  | query | No       | longitude user    |
-
-#### Response
-
-- **Success**
-
-```json
-{
-    "success": true
-}
-```
-
-- **Error**
-
-```json
-{
-    "success": false,
-    "error": "Exception message"
-}
-```
-</a>
+---
