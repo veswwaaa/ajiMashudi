@@ -1,37 +1,50 @@
 ini dokumentasi func" bekend
 
 ## 📖 Dokumentasi API
+
 Silakan pilih modul yang ingin dilihat:
+
 - [🔐 Autentikasi](docs/auth.md)
 - [👥 Manajemen User](docs/users.md)
 - [💸 Transaksi](#bagian-transaksi)
 
 ### Login Func
+
 Untuk Login
 
 <a name="bagian-transaksi"></a>
-**Endpoint:** 
+**Endpoint:**
+
 ```
-// Code goes here
-function example() {
-  console.log("Hello, world!");
-}
+import 'package:ajimashudi/providers/auth_provider.dart';
+
+loginUser(email, password);
 ```
+
 **Auth:** Required (Bearer Token)
 
 #### Parameters
-| Name | Type | In | Required | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `fields` | string | query | No | Field yang ingin ditampilkan (comma separated) |
+
+| Name       | Type               | In    | Required | Description   |
+| :--------- | :----------------- | :---- | :------- | :------------ |
+| `email`    | string             | query | No       | email User    |
+| `password` | string(min 6 char) | query | No       | password User |
 
 #### Response
-- **200 OK**
+
+- **Success**
+
+````json
+{
+      'success': true,
+      'name': kevin apta,
+      'role': user,
+      'uid': XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX,
+}
+- **Error**
 ```json
 {
-  "status": "success",
-  "data": {
-    "id": "USR-99",
-    "username": "daffaganteng",
-    "email": "daffa@perusahaan.com"
-  }
+    'success': false, 
+    'error': "Invalid Login Credientals" 
 }
+````
