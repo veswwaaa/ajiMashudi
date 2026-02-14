@@ -142,11 +142,13 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     }
                   }else if (login['success'] == false) {
-                    _showSnackBar(
-                      login['error'] ?? 'Login gagal. Email atau password salah',
-                      isError: true,
-                    );
-                    print("Login gagal: ${login['error']}");
+                    if (login['error'] == "Invalid login credentials") {
+                      _showSnackBar(
+                        'Login gagal . Email atau password salah',
+                        isError: true
+                      );
+                    }
+                    print(login);
                   }
                 }catch (e) {
                   _showSnackBar('terjadi kesalahan: $e', isError: true);
