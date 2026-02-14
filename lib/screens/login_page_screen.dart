@@ -15,11 +15,28 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
+  bool _isLoading = false;
+
   @override
   void dispose() {
     _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  //metod notif
+  void _showSnackBar(String message, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? Colors.red : Colors.green,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: EdgeInsets.all(16),
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
 
   // ======================= NEH FORM LOGIN NYOOOO !!!=====================
@@ -28,7 +45,9 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         SizedBox(height: 28),
         TextField(
-          controller: _emailController, /* <----------- kepin: ini ku ganti no, kam ngasih username njir bukn email kocak ni */
+          controller: _emailController,
+          /* <----------- kepin: ini ku ganti no, kam ngasih username njir bukn email kocak ni */
+          /*ya maap ga ngerti sistem nya gimana saya ini bang, masih pemula*/
           decoration: InputDecoration(
             labelText: 'Email',
             prefixIcon: Icon(Icons.email),
@@ -85,20 +104,67 @@ class _LoginPageState extends State<LoginPage> {
 
             elevation: 5,
           ),
-          onPressed: () async {
-            final login = await loginUser(
-              _emailController.text,
-              _passwordController.text,
-            );
-            if (login['success'] == true) {
-              (['user', 'admin', 'driver'].contains(login['role']))
-                  ? context.go('/${login['role']}')
-                  : print('Unknown role');
-            } else {
-              print("Login gagal: ${login['error']}");
-            }
-          },
-          child: Text('Login'),
+          onPressed: _isLoading
+              ? null
+              : () async {
+                  // Validasi input kosong
+                  if (_emailController.text.isEmpty) {
+                    _showSnackBar('Email tidak boleh kosong', isError: true);
+                    return;
+                  }
+
+                  if (!_emailController.text.contains('@')) {
+                    _showSnackBar('Format email tidak valid', isError: true);
+                    return;
+                  }
+
+                  if (_passwordController.text.isEmpty) {
+                    _showSnackBar('Password tidak boleh kosong', isError: true);
+                    return;
+                  }
+
+                  try {
+                    final login = await loginUser(
+                    _emailController.text,
+                    _passwordController.text,
+                  );
+
+                  if (login['success'] == true) {
+                    _showSnackBar('Login Berhasil !');
+
+                    if (['user', 'admin', 'driver'].contains(login['role'])) {
+                      context.go('/${login['role']}');
+                    } else {
+                      _showSnackBar(
+                        login['error'] ??
+                            'login gagal. Email atau password salah',
+                        isError: true,
+                      );
+                    }
+                  }else if (login['success'] == false) {
+                    _showSnackBar(
+                      login['error'] ?? 'Login gagal. Email atau password salah',
+                      isError: true,
+                    );
+                  }
+                }catch (e) {
+                  _showSnackBar('terjadi kesalahan: $e', isError: true);
+                }finally {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                }
+              },
+          child: _isLoading
+              ? SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                  ),
+              )
+              :Text('Login'),
         ),
         SizedBox(height: 12),
 
@@ -118,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
 
             elevation: 5,
           ),
-          onPressed: () async{
+          onPressed: () async {
             // HANDLE LOGIN GOOGLENYA DI SINI YA KEFIN
             // KEPIN: NGGEH NO
             final login = await LoginOauthUser();
