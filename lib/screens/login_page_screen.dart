@@ -115,70 +115,51 @@ class _LoginPageState extends State<LoginPage> {
               ? null
               : () async {
                   // Validasi input kosong
-                  if (_emailController.text.isEmpty) {
-                    _showSnackBar('Email tidak boleh kosong', isError: true);
-                    return;
-                  }
-
-                  if (!_emailController.text.contains('@')) {
-                    _showSnackBar('Format email tidak valid', isError: true);
-                    return;
-                  }
-
-                  if (_passwordController.text.isEmpty) {
-                    _showSnackBar('Password tidak boleh kosong', isError: true);
-                    return;
-                  }
-
                   setState(() {
                     _isLoading = true;
                   });
 
                   try {
                     final login = await loginUser(
-                    _emailController.text,
-                    _passwordController.text,
-                  );
+                      _emailController.text,
+                      _passwordController.text,
+                    );
 
-                  if (login['success'] == true) {
-                    _showSnackBar('Login Berhasil !');
+                    if (login['success'] == true) {
+                      _showSnackBar('Login Berhasil !');
 
-                    if (['user', 'admin', 'driver'].contains(login['role'])) {
-                      context.go('/${login['role']}');
-                    } else {
-                      _showSnackBar(
-                        login['error'] ??
-                            'login gagal. Email atau password salah',
-                        isError: true,
-                      );
+                      if (['user', 'admin', 'driver'].contains(login['role'])) {
+                        // context.go('/${login['role']}');
+                        context.go('/mainNavigationScreenOdoy');
+                      } else {
+                        _showSnackBar(
+                          login['error'] ??
+                              'login gagal. Email atau password salah',
+                          isError: true,
+                        );
+                      }
+                    } else if (login['success'] == false) {
+                      _showSnackBar(login['error'] ?? 'Login gagal', isError: true);
+                      print(login);
                     }
-                  }else if (login['success'] == false) {
-                    if (login['error'] == "Invalid login credentials") {
-                      _showSnackBar(
-                        'Login gagal . Email atau password salah',
-                        isError: true
-                      );
-                    }
-                    print(login);
+                  } catch (e) {
+                    _showSnackBar('terjadi kesalahan: $e', isError: true);
+                  } finally {
+                    setState(() {
+                      _isLoading = false;
+                    });
                   }
-                }catch (e) {
-                  _showSnackBar('terjadi kesalahan: $e', isError: true);
-                }finally {
-                  setState(() {
-                    _isLoading = false;
-                  });
-                }
-              },
+                },
           child: _isLoading
               ? SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: Colors.white,
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
                   ),
-              )
-              :Text('Login'),
+                )
+              : Text('Login'),
         ),
         SizedBox(height: 12),
 
@@ -198,25 +179,26 @@ class _LoginPageState extends State<LoginPage> {
 
             elevation: 5,
           ),
-          onPressed: _isLoading ? null : () async {
-            setState(() {
-              _isLoading = true;
-            });
+          onPressed: _isLoading
+              ? null
+              : () async {
+                  setState(() {
+                    _isLoading = true;
+                  });
 
+                  // HANDLE LOGIN GOOGLENYA DI SINI YA KEFIN
+                  // KEPIN: NGGEH NO
 
-            // HANDLE LOGIN GOOGLENYA DI SINI YA KEFIN
-            // KEPIN: NGGEH NO
-            
-            final login = await LoginOauthUser();
-            if (login['success'] == true) {
-              (['user', 'admin', 'driver'].contains(login['role']))
-                  ? context.go('/${login['role']}')
-                  : print('Unknown role');
-            } else {
-              print("Login Google gagal: ${login['error']}");
-            }
-
-          },
+                  final login = await LoginOauthUser();
+                  if (login['success'] == true) {
+                    (['user', 'admin', 'driver'].contains(login['role']))
+                        // ? context.go('/${login['role']}')
+                        ? context.go('/mainNavigationScreenOdoy')
+                        : print('Unknown role');
+                  } else {
+                    print("Login Google gagal: ${login['error']}");
+                  }
+                },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -323,85 +305,94 @@ class _LoginPageState extends State<LoginPage> {
 
             elevation: 5,
           ),
-          onPressed: _isLoading ? null : () async {
-            if (_registerUsernameController.text.isEmpty) {
-              _showSnackBar('username tidak boleh kosong', isError : true);
-              return;
-            }
+          onPressed: _isLoading
+              ? null
+              : () async {
+                  if (_registerUsernameController.text.isEmpty) {
+                    _showSnackBar('username tidak boleh kosong', isError: true);
+                    return;
+                  }
 
-            if(_registerUsernameController.text.length < 3) {
-              _showSnackBar('username minimal 3 karakter', isError: true);
-              return;
-            }
+                  if (_registerUsernameController.text.length < 3) {
+                    _showSnackBar('username minimal 3 karakter', isError: true);
+                    return;
+                  }
 
-            if (_registerEmailController.text.isEmpty) {
-              _showSnackBar('Email tidak boleh kosong', isError: true);
-              return;
-            }
+                  if (_registerEmailController.text.isEmpty) {
+                    _showSnackBar('Email tidak boleh kosong', isError: true);
+                    return;
+                  }
 
-            if(!_registerEmailController.text.contains('@') || !_registerEmailController.text.contains('.')) {
-              _showSnackBar('Format email tidak valid', isError: true);
-              return;
-            }
+                  if (!_registerEmailController.text.contains('@') ||
+                      !_registerEmailController.text.contains('.')) {
+                    _showSnackBar('Format email tidak valid', isError: true);
+                    return;
+                  }
 
-            if (_registerPasswordController.text.isEmpty) {
-              _showSnackBar('Password tidak boleh kosong', isError: true);
-              return;
-            }
+                  if (_registerPasswordController.text.isEmpty) {
+                    _showSnackBar('Password tidak boleh kosong', isError: true);
+                    return;
+                  }
 
-            if(_registerPasswordController.text.length < 6) {
-              _showSnackBar('Password minimal 6 karakter', isError: true);
-              return;
-            }
+                  if (_registerPasswordController.text.length < 6) {
+                    _showSnackBar('Password minimal 6 karakter', isError: true);
+                    return;
+                  }
 
-            setState(() {
-              _isLoading = true;
-            });
+                  setState(() {
+                    _isLoading = true;
+                  });
 
+                  try {
+                    final register = await signInUser(
+                      username: _registerUsernameController.text,
+                      email: _registerEmailController.text,
+                      password: _registerPasswordController.text,
+                    );
 
-            try{
-            final register = await signInUser(
-              username: _registerUsernameController.text,
-              email: _registerEmailController.text,
-              password: _registerPasswordController.text,
-            );
+                    if (register['success'] == true) {
+                      _showSnackBar(
+                        'Register anda telah berhasil, silahkan lanjutkan ke login untuk masuk ke aplikasi !',
+                      );
 
-            if (register['success'] == true) {
-              _showSnackBar('Register anda telah berhasil, silahkan lanjutkan ke login untuk masuk ke aplikasi !');
+                      _registerUsernameController.clear();
+                      _registerEmailController.clear();
+                      _registerPasswordController.clear();
 
-              _registerUsernameController.clear();
-              _registerEmailController.clear();
-              _registerPasswordController.clear();
-              
-              //kepin: ku tambahin ni biar waktu sudh daftar langusng balik ke login
-              setState(() {
-                isLogin = true;
-              });
-              // (['user', 'admin', 'driver'].contains(register['role']))
-              //     ? context.go('/${register['role']}')
-              //     : print('Unknown role');
-              print(register['success']);
-            } else {
-              _showSnackBar( register['error'] ?? 'Registrasi gagal. Silahkan Coba Lagi', isError: true);
-              print(register['error']);
-            }
-            } catch (e) {
-              _showSnackBar('Terjadi Kesalahan: $e', isError: true);
-            } finally {
-              setState(() {
-                _isLoading = false;
-              });
-            }
-          },
-          child: _isLoading ? SizedBox(
-            height: 20,
-            width: 20,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              color: Colors.black,
-            ),
-          )
-          : Text('Daftar'),
+                      //kepin: ku tambahin ni biar waktu sudh daftar langusng balik ke login
+                      setState(() {
+                        isLogin = true;
+                      });
+                      // (['user', 'admin', 'driver'].contains(register['role']))
+                      //     ? context.go('/${register['role']}')
+                      //     : print('Unknown role');
+                      print(register['success']);
+                    } else {
+                      _showSnackBar(
+                        register['error'] ??
+                            'Registrasi gagal. Silahkan Coba Lagi',
+                        isError: true,
+                      );
+                      print(register['error']);
+                    }
+                  } catch (e) {
+                    _showSnackBar('Terjadi Kesalahan: $e', isError: true);
+                  } finally {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  }
+                },
+          child: _isLoading
+              ? SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.black,
+                  ),
+                )
+              : Text('Daftar'),
         ),
       ],
     );
