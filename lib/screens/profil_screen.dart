@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_menu_item.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:go_router/go_router.dart';
+
 
 class ProfilScreen extends StatelessWidget {
   const ProfilScreen({super.key});
@@ -245,29 +248,18 @@ class ProfilScreen extends StatelessWidget {
                                       child: Material(
                                         color: Colors.transparent,
                                         child: InkWell(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                            ScaffoldMessenger.of(
+                                          onTap: () async {
+                                            Navigator.pop(
                                               context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: const Text(
-                                                  'Berhasil Keluar',
-                                                ),
-                                                behavior:
-                                                    SnackBarBehavior.floating,
-                                                backgroundColor:
-                                                    Colors.green.shade600,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                margin: const EdgeInsets.all(
-                                                  16,
-                                                ),
-                                              ),
-                                            );
+                                            ); // tutup dialog
+
+                                            await Supabase.instance.client.auth
+                                                .signOut();
+
+                                            // pindah ke login page
+                                            context.go('/');
                                           },
+
                                           borderRadius: BorderRadius.circular(
                                             12,
                                           ),
