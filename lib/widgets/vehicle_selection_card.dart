@@ -120,16 +120,20 @@ class VehicleSelectionCard extends StatelessWidget {
                                 : Colors.grey.shade600,
                           ),
                           const SizedBox(width: 4),
-                          Text(
-                            vehicle.capacity,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: isSelected
-                                  ? Colors.blue.shade700
-                                  : Colors.grey.shade600,
-                              fontWeight: isSelected
-                                  ? FontWeight.w600
-                                  : FontWeight.w500,
+                          Expanded(
+                            child: Text(
+                              vehicle.capacity,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: isSelected
+                                    ? Colors.blue.shade700
+                                    : Colors.grey.shade600,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
