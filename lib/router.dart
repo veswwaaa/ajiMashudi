@@ -5,6 +5,7 @@ import 'package:ajimashudi/screens/login_page_screen.dart';
 import 'package:ajimashudi/screens/admin_screen.dart';
 import 'package:ajimashudi/screens/driver_screen.dart';
 import 'package:ajimashudi/screens/user_screen.dart';
+import 'package:ajimashudi/screens/main_navigation_screen_odoy.dart';
 // import 'package:ajimashudi/screens/location_screen.dart';
 // import 'package:ajimashudi/screens/google_map_screen.dart';
 // import 'package:ajimashudi/screens/real_time_db_screen.dart';
@@ -12,9 +13,7 @@ import 'package:ajimashudi/screens/user_screen.dart';
 
 // GoRouter configuration
 final router = GoRouter(
-  // refreshListenable: GoRouterRefreshStream(
-  //   FirebaseAuth.instance.authStateChanges(),
-  // ),  
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
@@ -32,23 +31,11 @@ final router = GoRouter(
       path: '/driver',
       builder: (context, state) => const DriverScreen(),
     ),
+    GoRoute(
+      path: '/mainNavigationScreenOdoy',
+      builder: (context, state) => const MainNavigationScreen(),
+    ),
   ],
-  // redirect: (BuildContext context, GoRouterState state) {
-  //   final bool isAuthenticated = FirebaseAuth.instance.currentUser != null;
-  //   final bool isLoggingIn = state.matchedLocation == '/login';
-
-  //   // 1. Jika belum login dan tidak di halaman login, paksa ke /login
-  //   if (!isAuthenticated) {
-  //     return isLoggingIn ? null : '/login';
-  //   }
-
-  //   if (isLoggingIn) {
-  //     return '/admin';
-  //   }
-
-  //   // 3. Jika tidak ada masalah, tetap di tempat (return null)
-  //   return null;
-  // },
 
 );
 

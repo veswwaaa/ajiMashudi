@@ -1,29 +1,9 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
-import 'screens/pesanan_screen.dart';
-import 'screens/chat_screen.dart';
-import 'screens/profil_screen.dart';
+import './home_screen.dart';
+import './pesanan_screen.dart';
+import './chat_screen.dart';
+import './profil_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dashboard User',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      ),
-      home: const MainNavigationScreen(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
