@@ -48,8 +48,12 @@ Future loginUser(email, password) async {
 
     // print('Status Code: $status');
     // print('Error Code: $code');
-    if(error.message == 'Invalid login credentials') {
+    print(error);
+    if (error.message == 'Invalid login credentials') {
       message = 'Login gagal. Email atau password salah';
+    }
+    if (error.message == 'Email not confirmed') {
+      message = 'Email berlum terverifikasi. Silahkan cek email anda untuk verifikasi akun.';
     }
     return {'success': false, 'error': message};
   } catch (e) {
@@ -112,6 +116,42 @@ Future LoginOauthUser() async {
 Future signInUser({username, email, password}) async {
   final supabase = Supabase.instance.client;
   try {
+    if (username.isEmpty) {
+      // _showSnackBar('username tidak boleh kosong', isError: true);
+      // return;
+      throw ("Username tidak boleh kosong");
+    }
+
+    if (username.length < 3) {
+      // _showSnackBar('username minimal 3 karakter', isError: true);
+      // return;
+      throw ("Username minimal 3 karakter");
+    }
+
+    if (email.isEmpty) {
+      // _showSnackBar('Email tidak boleh kosong', isError: true);
+      // return;
+      throw ("Email tidak boleh kosong");
+    }
+
+    if (!email.contains('@') ||
+        !email.contains('.')) {
+      // _showSnackBar('Format email tidak valid', isError: true);
+      // return;
+      throw ("Format email tidak valid");
+    }
+
+    if (password.isEmpty) {
+      // _showSnackBar('Password tidak boleh kosong', isError: true);
+      // return;
+      throw ("Password tidak boleh kosong");
+    }
+
+    if (password.length < 6) {
+      // _showSnackBar('Password minimal 6 karakter', isError: true);
+      // return;
+      throw ("Password minimal 6 karakter");
+    }
     //gitula
     final AuthResponse res = await supabase.auth.signUp(
       email: email,
@@ -136,7 +176,12 @@ Future signInUser({username, email, password}) async {
     };
   } on PostgrestException catch (error) {
     String message = error.message; // 'Invalid login credentials'
-    print('Postgrest Error: $message');
+    // print('Postgrest Error: $message');
+
+
+    if (message == "insert or update on table \"users\" violates foreign key constraint \"users_uid_fkey\"") {
+      message = 'Email sudah terdaftar. Silahkan gunakan email lain';
+    }
     return {'success': false, 'error': message};
   } catch (e) {
     return {'success': false, 'error': e.toString()};

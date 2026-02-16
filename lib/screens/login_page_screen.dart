@@ -308,37 +308,6 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: _isLoading
               ? null
               : () async {
-                  if (_registerUsernameController.text.isEmpty) {
-                    _showSnackBar('username tidak boleh kosong', isError: true);
-                    return;
-                  }
-
-                  if (_registerUsernameController.text.length < 3) {
-                    _showSnackBar('username minimal 3 karakter', isError: true);
-                    return;
-                  }
-
-                  if (_registerEmailController.text.isEmpty) {
-                    _showSnackBar('Email tidak boleh kosong', isError: true);
-                    return;
-                  }
-
-                  if (!_registerEmailController.text.contains('@') ||
-                      !_registerEmailController.text.contains('.')) {
-                    _showSnackBar('Format email tidak valid', isError: true);
-                    return;
-                  }
-
-                  if (_registerPasswordController.text.isEmpty) {
-                    _showSnackBar('Password tidak boleh kosong', isError: true);
-                    return;
-                  }
-
-                  if (_registerPasswordController.text.length < 6) {
-                    _showSnackBar('Password minimal 6 karakter', isError: true);
-                    return;
-                  }
-
                   setState(() {
                     _isLoading = true;
                   });
@@ -368,11 +337,7 @@ class _LoginPageState extends State<LoginPage> {
                       //     : print('Unknown role');
                       print(register['success']);
                     } else {
-                      _showSnackBar(
-                        register['error'] ??
-                            'Registrasi gagal. Silahkan Coba Lagi',
-                        isError: true,
-                      );
+                      _showSnackBar(register['error'] ?? 'Registrasi gagal. Silahkan Coba Lagi', isError: true);
                       print(register['error']);
                     }
                   } catch (e) {
