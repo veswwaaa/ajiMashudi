@@ -139,7 +139,10 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       }
                     } else if (login['success'] == false) {
-                      _showSnackBar(login['error'] ?? 'Login gagal', isError: true);
+                      _showSnackBar(
+                        login['error'] ?? 'Login gagal',
+                        isError: true,
+                      );
                       print(login);
                     }
                   } catch (e) {
@@ -188,15 +191,22 @@ class _LoginPageState extends State<LoginPage> {
 
                   // HANDLE LOGIN GOOGLENYA DI SINI YA KEFIN
                   // KEPIN: NGGEH NO
+                  try {
 
                   final login = await LoginOauthUser();
                   if (login['success'] == true) {
+                    _showSnackBar('Login Google Berhasil !');
                     (['user', 'admin', 'driver'].contains(login['role']))
                         // ? context.go('/${login['role']}')
                         ? context.go('/mainNavigationScreenOdoy')
                         : print('Unknown role');
                   } else {
+                    _showSnackBar(login['error'] ?? 'Login Google Gagal', isError: true);
                     print("Login Google gagal: ${login['error']}");
+                    }
+                  } catch (e) {
+                    _showSnackBar('Terjadi kesalahan saat login Google: $e', isError: true);
+                    print("Error saat login Google: $e");
                   }
                 },
           child: Row(
@@ -337,7 +347,11 @@ class _LoginPageState extends State<LoginPage> {
                       //     : print('Unknown role');
                       print(register['success']);
                     } else {
-                      _showSnackBar(register['error'] ?? 'Registrasi gagal. Silahkan Coba Lagi', isError: true);
+                      _showSnackBar(
+                        register['error'] ??
+                            'Registrasi gagal. Silahkan Coba Lagi',
+                        isError: true,
+                      );
                       print(register['error']);
                     }
                   } catch (e) {
