@@ -19,7 +19,7 @@ class OrderTrackingScreen extends StatefulWidget {
 }
 
 class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
-  int _currentStatusIndex = 1;
+  final int _currentStatusIndex = 1;
 
   final List<String> orderStatuses = [
     'Pesanan Dikonfirmasi',

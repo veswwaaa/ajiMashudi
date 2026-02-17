@@ -78,7 +78,7 @@ Future LoginOauthUser() async {
     );
 
     final googleUser = await googleSignIn.authenticate();
-    final googleAuth = await googleUser!.authentication;
+    final googleAuth = googleUser.authentication;
     final idToken = googleAuth.idToken;
     final response = await supabase.auth.signInWithIdToken(
       provider: OAuthProvider.google,
@@ -108,8 +108,8 @@ Future LoginOauthUser() async {
     return {
       'success': true,
       'name': userData!['display_name'],
-      'role': userData!['role'],
-      'uid': userData!['uid'],
+      'role': userData['role'],
+      'uid': userData['uid'],
     };
   } catch (e) {
     return {'success': false, 'error': e.toString()};

@@ -19,10 +19,10 @@ class _HomeScreenState extends State<HomeScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
-  String _pickupAddress = 'Jl. Sudirman No. 45, Jakarta Selatan';
-  String _deliveryAddress = 'Jl. Gatot Subroto No. 12, Jakarta Pusat';
-  double _distance = 8.5;
-  int _duration = 25;
+  final String _pickupAddress = 'Jl. Sudirman No. 45, Jakarta Selatan';
+  final String _deliveryAddress = 'Jl. Gatot Subroto No. 12, Jakarta Pusat';
+  final double _distance = 8.5;
+  final int _duration = 25;
 
   final List<VehicleType> vehicles = [
     VehicleType(

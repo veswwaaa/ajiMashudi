@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'firebase_options.dart';
+// Firebase removed: using Supabase for database/auth
 import 'package:ajimashudi/features/roles/ui/admin_screen.dart';
 import 'package:ajimashudi/features/roles/ui/driver_screen.dart';
 import 'package:ajimashudi/features/roles/ui/user_screen.dart';
@@ -16,11 +14,12 @@ Future<void> main() async {
     anonKey: 'sb_publishable_yYtSrHUr2-tfKYS4SpeGVQ_XMSwrhTQ',
   );
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   // Create the AuthenticationBloc which is available above MaterialApp
 
   @override

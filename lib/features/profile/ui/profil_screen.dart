@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ajimashudi/shared/widgets/profile_header.dart';
 import 'package:ajimashudi/shared/widgets/profile_menu_item.dart';
-import 'package:ajimashudi/features/auth/data/auth_provider.dart';
 import 'package:ajimashudi/features/auth/bloc/authentication_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -54,98 +53,32 @@ class ProfilScreen extends StatelessWidget {
                     ProfileMenuItem(
                       icon: Icons.edit_outlined,
                       title: 'Edit Profil',
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Edit Profil'),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: const EdgeInsets.all(16),
-                          ),
-                        );
-                      },
+                      onTap: () => context.push('/profile/edit'),
                     ),
                     ProfileMenuItem(
                       icon: Icons.location_on_outlined,
                       title: 'Alamat Tersimpan',
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Alamat Tersimpan'),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: const EdgeInsets.all(16),
-                          ),
-                        );
-                      },
+                      onTap: () => context.push('/profile/addresses'),
                     ),
                     ProfileMenuItem(
                       icon: Icons.payment_outlined,
                       title: 'Metode Pembayaran',
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Metode Pembayaran'),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: const EdgeInsets.all(16),
-                          ),
-                        );
-                      },
+                      onTap: () => context.push('/profile/payment'),
                     ),
                     ProfileMenuItem(
                       icon: Icons.notifications_outlined,
                       title: 'Notifikasi',
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Notifikasi'),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: const EdgeInsets.all(16),
-                          ),
-                        );
-                      },
+                      onTap: () => context.push('/profile/notifications'),
                     ),
                     ProfileMenuItem(
                       icon: Icons.shield_outlined,
                       title: 'Keamanan',
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Keamanan'),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: const EdgeInsets.all(16),
-                          ),
-                        );
-                      },
+                      onTap: () => context.push('/profile/security'),
                     ),
                     ProfileMenuItem(
                       icon: Icons.help_outline,
                       title: 'Bantuan',
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Bantuan'),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            margin: const EdgeInsets.all(16),
-                          ),
-                        );
-                      },
+                      onTap: () => context.push('/profile/help'),
                     ),
                     const SizedBox(height: 8),
                   ],

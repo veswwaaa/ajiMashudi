@@ -8,7 +8,7 @@ final Location location = Location();
 Future<Stream<LocationData>> getLocationStream() async {
   bool serviceEnabled;
   PermissionStatus permissionGranted;
-  StreamSubscription<LocationData>? _locationSubscription;
+  StreamSubscription<LocationData>? locationSubscription;
 
   // serviceEnabled = await location.serviceEnabled();
   // if (!serviceEnabled) {
@@ -25,12 +25,12 @@ Future<Stream<LocationData>> getLocationStream() async {
   //     throw Exception('Location permission not granted');
   //   }
   // }
-  _locationSubscription =
+  locationSubscription =
         location.onLocationChanged.handleError((dynamic err) {
       if (err is PlatformException) {
       }
-      _locationSubscription?.cancel();
-        _locationSubscription = null;
+      locationSubscription?.cancel();
+        locationSubscription = null;
     }).listen((currentLocation) {
         print(currentLocation);
     });
