@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ajimashudi/shared/widgets/profile_header.dart';
 import 'package:ajimashudi/shared/widgets/profile_menu_item.dart';
 import 'package:ajimashudi/features/auth/data/auth_provider.dart';
+import 'package:ajimashudi/features/auth/bloc/authentication_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 
@@ -10,6 +12,11 @@ class ProfilScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        
+      },
+      builder: (context, state) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       body: SafeArea(
@@ -248,22 +255,10 @@ class ProfilScreen extends StatelessWidget {
                                       child: Material(
                                         color: Colors.transparent,
                                         child: InkWell(
-                                          onTap: () async {
-                                            // Navigator.pop(
-                                            //   context,
-                                            // ); // tutup dialog
-
-                                            // await Supabase.instance.client.auth
-                                            //     .signOut();
-                                              final logout = await logOutUser();
-                                              if (logout['success'] == true) {
-                                                context.go('/');
-                                              }else{
-                                                print("Error logout: ${logout['error']}");
-                                              }
-
-                                            // pindah ke login page
-                                            // context.go('/');
+                                          onTap: () {
+                                            context.read<AuthenticationBloc>().add(
+                                              LoggedOut()
+                                            );
                                           },
 
                                           borderRadius: BorderRadius.circular(
@@ -334,6 +329,7 @@ class ProfilScreen extends StatelessWidget {
         ),
       ),
     );
+      });
   }
 }
 

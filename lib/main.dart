@@ -22,7 +22,6 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   // Create the AuthenticationBloc which is available above MaterialApp
-  final AuthenticationBloc authBloc = AuthenticationBloc();
 
   @override
   Widget build(BuildContext context) {

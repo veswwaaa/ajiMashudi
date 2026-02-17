@@ -111,22 +111,22 @@ class _HomeScreenState extends State<HomeScreen>
             height: MediaQuery.of(context).size.height * 0.45,
             child: Stack(
               children: [
-                GoogleMapWidget(
-                  markers: _mapMarkers,
-                  initialPosition: _defaultLocation,
-                  onMarkerTap: (marker) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('${marker.title}: ${marker.description}'),
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        margin: const EdgeInsets.all(16),
-                      ),
-                    );
-                  },
-                ),
+                // GoogleMapWidget(
+                //   markers: _mapMarkers,
+                //   initialPosition: _defaultLocation,
+                //   onMarkerTap: (marker) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       SnackBar(
+                //         content: Text('${marker.title}: ${marker.description}'),
+                //         behavior: SnackBarBehavior.floating,
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(10),
+                //         ),
+                //         margin: const EdgeInsets.all(16),
+                //       ),
+                //     );
+                //   },
+                // ),
                 // Gradient overlay at bottom
                 Positioned(
                   bottom: 0,
