@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_menu_item.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 
 
@@ -253,11 +253,17 @@ class ProfilScreen extends StatelessWidget {
                                               context,
                                             ); // tutup dialog
 
-                                            await Supabase.instance.client.auth
-                                                .signOut();
+                                            // await Supabase.instance.client.auth
+                                            //     .signOut();
+                                              final logout = await logOutUser();
+                                              if (logout['success'] == true) {
+                                                context.go('/');
+                                              }else{
+                                                print("Error logout: ${logout['error']}");
+                                              }
 
                                             // pindah ke login page
-                                            context.go('/');
+                                            // context.go('/');
                                           },
 
                                           borderRadius: BorderRadius.circular(

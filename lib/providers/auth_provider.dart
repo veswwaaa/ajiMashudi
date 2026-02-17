@@ -1,5 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:async';
 
 //ini fungsi untuk login
@@ -53,7 +55,8 @@ Future loginUser(email, password) async {
       message = 'Login gagal. Email atau password salah';
     }
     if (error.message == 'Email not confirmed') {
-      message = 'Email berlum terverifikasi. Silahkan cek email anda untuk verifikasi akun.';
+      message =
+          'Email berlum terverifikasi. Silahkan cek email anda untuk verifikasi akun.';
     }
     return {'success': false, 'error': message};
   } catch (e) {
@@ -134,8 +137,7 @@ Future signInUser({username, email, password}) async {
       throw ("Email tidak boleh kosong");
     }
 
-    if (!email.contains('@') ||
-        !email.contains('.')) {
+    if (!email.contains('@') || !email.contains('.')) {
       // _showSnackBar('Format email tidak valid', isError: true);
       // return;
       throw ("Format email tidak valid");
@@ -178,12 +180,44 @@ Future signInUser({username, email, password}) async {
     String message = error.message; // 'Invalid login credentials'
     // print('Postgrest Error: $message');
 
-
-    if (message == "insert or update on table \"users\" violates foreign key constraint \"users_uid_fkey\"") {
+    if (message ==
+        "insert or update on table \"users\" violates foreign key constraint \"users_uid_fkey\"") {
       message = 'Email sudah terdaftar. Silahkan gunakan email lain';
     }
     return {'success': false, 'error': message};
   } catch (e) {
     return {'success': false, 'error': e.toString()};
+  }
+}
+
+Future logOutUser() async {
+  final supabase = Supabase.instance.client;
+  try {
+    await supabase.auth.signOut();
+    return {'success': true};
+  } catch (e) {
+    return {'success': false, 'error': e.toString()};
+  }
+}
+
+Future checkSession() async {
+  final supabase = Supabase.instance.client;
+  final session = supabase.auth.currentSession;
+  if (session != null) {
+    final data = await supabase.auth.getUserIdentities();
+    final dbData = await supabase
+        .from('users')
+        .select()
+        .eq('uid', data.first.id)
+        .maybeSingle();
+
+    return {
+      'isAuthenticated': true,
+      'name': dbData!['display_name'],
+      'role': dbData['role'],
+      'uid': data.first.id,
+    };
+  } else {
+    return {'isAuthenticated': false};
   }
 }

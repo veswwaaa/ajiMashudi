@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ajimashudi/bloc/authentication_bloc.dart';
 import 'package:ajimashudi/providers/auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -47,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // ======================= NEH FORM LOGIN NYOOOO !!!=====================
-  Widget _buildLoginForm() {
+  Widget _buildLoginForm({required bool isLoginLoading}) {
     return Column(
       children: [
         SizedBox(height: 28),
@@ -111,49 +113,17 @@ class _LoginPageState extends State<LoginPage> {
 
             elevation: 5,
           ),
-          onPressed: _isLoading
+          onPressed: isLoginLoading
               ? null
-              : () async {
-                  // Validasi input kosong
-                  setState(() {
-                    _isLoading = true;
-                  });
-
-                  try {
-                    final login = await loginUser(
-                      _emailController.text,
-                      _passwordController.text,
-                    );
-
-                    if (login['success'] == true) {
-                      _showSnackBar('Login Berhasil !');
-
-                      if (['user', 'admin', 'driver'].contains(login['role'])) {
-                        // context.go('/${login['role']}');
-                        context.go('/mainNavigationScreenOdoy');
-                      } else {
-                        _showSnackBar(
-                          login['error'] ??
-                              'login gagal. Email atau password salah',
-                          isError: true,
-                        );
-                      }
-                    } else if (login['success'] == false) {
-                      _showSnackBar(
-                        login['error'] ?? 'Login gagal',
-                        isError: true,
+              : () {
+                  context.read<AuthenticationBloc>().add(
+                        LoginSubmitted(
+                          _emailController.text,
+                          _passwordController.text,
+                        ),
                       );
-                      print(login);
-                    }
-                  } catch (e) {
-                    _showSnackBar('terjadi kesalahan: $e', isError: true);
-                  } finally {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  }
                 },
-          child: _isLoading
+          child: isLoginLoading
               ? SizedBox(
                   height: 20,
                   width: 20,
@@ -182,32 +152,12 @@ class _LoginPageState extends State<LoginPage> {
 
             elevation: 5,
           ),
-          onPressed: _isLoading
+          onPressed: isLoginLoading
               ? null
-              : () async {
-                  setState(() {
-                    _isLoading = true;
-                  });
-
-                  // HANDLE LOGIN GOOGLENYA DI SINI YA KEFIN
-                  // KEPIN: NGGEH NO
-                  try {
-
-                  final login = await LoginOauthUser();
-                  if (login['success'] == true) {
-                    _showSnackBar('Login Google Berhasil !');
-                    (['user', 'admin', 'driver'].contains(login['role']))
-                        // ? context.go('/${login['role']}')
-                        ? context.go('/mainNavigationScreenOdoy')
-                        : print('Unknown role');
-                  } else {
-                    _showSnackBar(login['error'] ?? 'Login Google Gagal', isError: true);
-                    print("Login Google gagal: ${login['error']}");
-                    }
-                  } catch (e) {
-                    _showSnackBar('Terjadi kesalahan saat login Google: $e', isError: true);
-                    print("Error saat login Google: $e");
-                  }
+              : () {
+                  context.read<AuthenticationBloc>().add(
+                        GoogleLoginSubmitted(),
+                      );
                 },
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -380,146 +330,168 @@ class _LoginPageState extends State<LoginPage> {
   bool isLogin = true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(50),
-                    bottomRight: Radius.circular(50),
-                  ),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "LogiBox",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Solusi pengiriman barang terpercaya',
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              //==================INIIII CARDD NYOOO====================
-              Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  margin: EdgeInsets.only(top: 150),
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  width: double.infinity,
-                  child: Container(
-                    padding: EdgeInsets.all(20),
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        if (state is AuthenticationFailure) {
+          _showSnackBar(state.message, isError: true);
+        }
+        if (state is Authenticated) {
+          _showSnackBar('Login Berhasil !');
+          if (['user', 'admin', 'driver'].contains(state.role)) {
+            context.go('/mainNavigationScreenOdoy');
+          } else {
+            _showSnackBar('Role tidak dikenal', isError: true);
+          }
+        }
+      },
+      builder: (context, state) {
+        final isLoginLoading = state is AuthenticationLoadInProgress;
+        return Scaffold(
+          body: SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 200,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(50),
+                        bottomRight: Radius.circular(50),
+                      ),
                     ),
-
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "LogiBox",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          //ini tab nyo ya kapin
-                          //kepin: nggeh no
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      isLogin = true;
-                                    });
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: isLogin
-                                          ? Colors.white
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      'masuk',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: isLogin
-                                            ? FontWeight.bold
-                                            : FontWeight.normal,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 20),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      isLogin = false;
-                                    });
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: isLogin
-                                          ? Colors.transparent
-                                          : Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      'daftar',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: isLogin
-                                            ? FontWeight.normal
-                                            : FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          Text(
+                            'Solusi pengiriman barang terpercaya',
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           ),
-                        ),
-                        isLogin ? _buildLoginForm() : _buildRegisterForm(),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
+
+                  //==================INIIII CARDD NYOOO====================
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 150),
+                      padding: EdgeInsets.symmetric(horizontal: 24),
+                      width: double.infinity,
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              //ini tab nyo ya kapin
+                              //kepin: nggeh no
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isLogin = true;
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(vertical: 6),
+                                        decoration: BoxDecoration(
+                                          color: isLogin
+                                              ? Colors.white
+                                              : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          'masuk',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontWeight: isLogin
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 20),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isLogin = false;
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(vertical: 6),
+                                        decoration: BoxDecoration(
+                                          color: isLogin
+                                              ? Colors.transparent
+                                              : Colors.white,
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          'daftar',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontWeight: isLogin
+                                                ? FontWeight.normal
+                                                : FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            isLogin
+                                ? _buildLoginForm(
+                                    isLoginLoading: isLoginLoading,
+                                  )
+                                : _buildRegisterForm(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -47,6 +47,7 @@ dependencies:
   dotted_border: ^2.0.0
   google_sign_in: ^7.2.0
   google_maps_flutter: ^2.14.2
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
   flutter_test:
