@@ -187,7 +187,7 @@ class KeuanganScreen extends StatelessWidget {
                                     const Text(
                                       '4',
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.w700,
                                         color: Colors.black87,
                                       ),
