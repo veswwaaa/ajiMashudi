@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:ajimashudi/features/auth/ui/login_page_screen.dart';
-import 'package:ajimashudi/features/roles/ui/admin_screen.dart';
+import 'package:ajimashudi/features/roles/admin/screens/admin_main_navigation.dart';
 import 'package:ajimashudi/features/roles/ui/driver_screen.dart';
 import 'package:ajimashudi/features/roles/ui/user_screen.dart';
 import 'package:ajimashudi/features/navigation/ui/main_navigation_screen_odoy.dart';
@@ -26,7 +26,10 @@ final router = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(path: '/', builder: (context, state) => const LoginPage()),
-    GoRoute(path: '/admin', builder: (context, state) => const AdminScreen()),
+    GoRoute(
+      path: '/admin',
+      builder: (context, state) => const AdminMainNavigation(),
+    ),
     GoRoute(path: '/user', builder: (context, state) => const UserScreen()),
     GoRoute(path: '/driver', builder: (context, state) => const DriverScreen()),
     GoRoute(
@@ -37,9 +40,18 @@ final router = GoRouter(
       path: '/profile',
       builder: (context, state) => const ProfileMenuPage(),
       routes: [
-        GoRoute(path: 'edit', builder: (context, state) => edit.EditProfilePage()),
-        GoRoute(path: 'addresses', builder: (context, state) => const AddressesPage()),
-        GoRoute(path: 'payment', builder: (context, state) => const MetodePembayaranScreen()),
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) => edit.EditProfilePage(),
+        ),
+        GoRoute(
+          path: 'addresses',
+          builder: (context, state) => const AddressesPage(),
+        ),
+        GoRoute(
+          path: 'payment',
+          builder: (context, state) => const MetodePembayaranScreen(),
+        ),
         GoRoute(
           path: 'notifications',
           builder: (context, state) => Scaffold(
@@ -47,9 +59,18 @@ final router = GoRouter(
             body: const Center(child: Text('Halaman Notifikasi')),
           ),
         ),
-        GoRoute(path: 'view', builder: (context, state) => const ProfilScreen()),
-        GoRoute(path: 'security', builder: (context, state) => const KeamananScreen()),
-        GoRoute(path: 'help', builder: (context, state) => const BantuanScreen()),
+        GoRoute(
+          path: 'view',
+          builder: (context, state) => const ProfilScreen(),
+        ),
+        GoRoute(
+          path: 'security',
+          builder: (context, state) => const KeamananScreen(),
+        ),
+        GoRoute(
+          path: 'help',
+          builder: (context, state) => const BantuanScreen(),
+        ),
       ],
     ),
   ],

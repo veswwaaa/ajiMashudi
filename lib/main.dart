@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 // Firebase removed: using Supabase for database/auth
-import 'package:ajimashudi/features/roles/ui/admin_screen.dart';
-import 'package:ajimashudi/features/roles/ui/driver_screen.dart';
-import 'package:ajimashudi/features/roles/ui/user_screen.dart';
 import 'package:ajimashudi/core/routing/app_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,4 +34,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

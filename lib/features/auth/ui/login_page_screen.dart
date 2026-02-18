@@ -117,11 +117,11 @@ class _LoginPageState extends State<LoginPage> {
               ? null
               : () {
                   context.read<AuthenticationBloc>().add(
-                        LoginSubmitted(
-                          _emailController.text,
-                          _passwordController.text,
-                        ),
-                      );
+                    LoginSubmitted(
+                      _emailController.text,
+                      _passwordController.text,
+                    ),
+                  );
                 },
           child: isLoginLoading
               ? SizedBox(
@@ -156,8 +156,8 @@ class _LoginPageState extends State<LoginPage> {
               ? null
               : () {
                   context.read<AuthenticationBloc>().add(
-                        GoogleLoginSubmitted(),
-                      );
+                    GoogleLoginSubmitted(),
+                  );
                 },
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -337,7 +337,11 @@ class _LoginPageState extends State<LoginPage> {
         }
         if (state is Authenticated) {
           _showSnackBar('Login Berhasil !');
-          if (['user', 'admin', 'driver'].contains(state.role)) {
+          if (state.role == 'admin') {
+            context.go('/admin');
+          } else if (state.role == 'driver') {
+            context.go('/driver');
+          } else if (state.role == 'user') {
             context.go('/mainNavigationScreenOdoy');
           } else {
             _showSnackBar('Role tidak dikenal', isError: true);
@@ -426,12 +430,16 @@ class _LoginPageState extends State<LoginPage> {
                                         });
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(vertical: 6),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 6,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: isLogin
                                               ? Colors.white
                                               : Colors.transparent,
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                         ),
                                         child: Text(
                                           'masuk',
@@ -454,12 +462,16 @@ class _LoginPageState extends State<LoginPage> {
                                         });
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(vertical: 6),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 6,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: isLogin
                                               ? Colors.transparent
                                               : Colors.white,
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                         ),
                                         child: Text(
                                           'daftar',
@@ -495,4 +507,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
